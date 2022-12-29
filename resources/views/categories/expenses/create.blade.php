@@ -42,7 +42,7 @@
         </div>
         <div class="label">
             <label>Add BILL</label>
-            <input type="file" name="file" required>
+            <input type="file" name="file" >
             <div class="error">
                 @error('file')
                 {{ $message }}

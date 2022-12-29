@@ -5,19 +5,29 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Expense extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable ;
     protected $fillable=[
         
         'name',
+        'slug',
         'cost',
         'date',
         'category_id',
         'url',
         'month'
     ];
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
 
     public function category()
     {
@@ -61,13 +71,9 @@ class Expense extends Model
                 ]);
             }
         }
-        elseif( isset($key['search']) )
-        {
-            return $query->where('name','LiKE', '%'.$key['search'].'%');
-        }
         else
         {
             return $query->wherebetween('date', [$key['from'], $key['to']]);
         }   
-    }
+    }    
 }

@@ -38,7 +38,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create');
     Route::post('categories/store', [CategoryController::class, 'store'])->name('categories.store');
     Route::get('categories/expenses/create', [ExpenseController ::class, 'create'])->name('expenses.create');
-    Route::get('categories/expenses/{expense}/edit', [ExpenseController ::class, 'edit'])->name('expenses.edit');
+    Route::get('categories/expenses/{expense:slug}/edit', [ExpenseController ::class, 'edit'])->name('expenses.edit');
     Route::post('categories/expenses/{expense}/update', [ExpenseController ::class, 'update'])->name('expenses.update');
     Route::post('categories/expenses/store', [ExpenseController::class, 'store'])->name('expenses.store');
     Route::get('categories/expenses/show', [ExpenseController::class, 'show'])->name('expenses.show');

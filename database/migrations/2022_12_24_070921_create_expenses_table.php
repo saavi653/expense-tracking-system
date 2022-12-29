@@ -17,10 +17,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained();
             $table->string('name');
+            $table->string('slug');
             $table->integer('cost');
             $table->date('date');
             $table->string('month');
-            $table->string('url');
+            $table->string('url')->nullable();
             $table->timestamps();
         });
     }

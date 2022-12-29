@@ -17,7 +17,7 @@ class CategoryController extends Controller
     {
         $attributes = $request->validate([
 
-            'name' => 'required|min:3|max:255|unique:categories|alpha'
+            'name' => 'required|min:3|max:255|unique:categories|string'
         ]);
         
         Category::create($attributes);

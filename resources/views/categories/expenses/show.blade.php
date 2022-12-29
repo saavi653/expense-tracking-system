@@ -21,11 +21,6 @@
       </li>
     </ul>
   </div>
-  <form action="" method="get">
-      <div class="search">
-          <input  type="text" name="search" placeholder="Search by Name" value="{{ request()->search }}">
-      </div>
-  </form>
   <a href="{{ route('user.dashboard') }}" class="btn btn-dark">GO BACK</a>
 </div>
 
@@ -46,7 +41,11 @@
     <td>{{ $expense->date }}</td>
     <td>{{ $expense->name }}</td>
     <td>{{ $expense->cost }}</td>
-    <td><a href="{{ asset('storage/'.$expense->url) }}" target="_blank">Bill</a></td>
+    @if($expense->url)
+      <td><a href="{{ asset('storage/'.$expense->url) }}" target="_blank">Bill</a></td>
+    @else
+    <td>Not Uploaded</td>
+    @endif
     <td><a href="{{ route('expenses.edit', $expense) }}">EDIT</a>
     <td>{{ \Carbon\Carbon::parse($expense->date)->diffForHumans() }}</td>
     </tr>

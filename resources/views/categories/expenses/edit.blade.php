@@ -7,7 +7,10 @@
         <div class="label"><label>Choose Category</label>
             <select class="input" name="category_id" required>
                 @foreach($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                <option value="{{ $category->id }}"
+                @if($expense->category_id == $category->id) selected
+                @endif >
+                {{ $category->name }}</option>
                 @endforeach
             </select>
             <div class="error">
@@ -36,6 +39,15 @@
             <input type="text" name="cost" value="{{ $expense->cost }}" required>
             <div class="error">
                 @error('cost')
+                {{ $message }}
+                @enderror
+            </div>
+        </div>
+        <div class="label">
+            <label>Add BILL</label>
+            <input type="file" name="file" >
+            <div class="error">
+                @error('file')
                 {{ $message }}
                 @enderror
             </div>

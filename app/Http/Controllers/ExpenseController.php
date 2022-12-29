@@ -27,13 +27,17 @@ class ExpenseController extends Controller
             'category_id' => ['required',
                 Rule::in($categories_id)
             ],
-            'name' => 'required|alpha|string|min:3|max:255',
+            'name' => 'required|string|min:3|max:255',
             'cost' => 'required|integer|gt:0',
             'date' => 'required|after:2021-12-31|before:2023-01-01',
-            'file' => 'required|mimes:jpeg,jpg,png,pdf'
+            'file' => 'mimes:jpeg,jpg,png,pdf'
         ]);
 
-        $file=request()->file->store('/files');
+        $file=0;
+        if(request()->file)
+        {
+            $file=request()->file->store('/files');
+        }
 
         $attributes += [
             
@@ -74,15 +78,24 @@ class ExpenseController extends Controller
             ],
             'name' => 'required|string|min:3|max:255',
             'cost' => 'required|integer|gt:0',
-            'date' => 'required|after:2021-12-31|before:2023-01-01'
+            'date' => 'required|after:2021-12-31|before:2023-01-01',
+            'file' => 'mimes:jpeg,jpg,png,pdf'
         ]);
+
+        if(request()->file)
+        {
+            $file = request()->file->store('/files');
+
+            $attributes += [
+                'url' => $file
+            ];
+        }
 
         $attributes += [
             'month' => Carbon::createFromFormat('Y-m-d', $attributes['date'])->format('F'),
         ];
         
         MonthlyExpense::MonthlyExpenseUpdate($expense);
-
         $expense->update($attributes);
 
         MonthlyExpense::AddExpense($expense->month);
@@ -97,7 +110,6 @@ class ExpenseController extends Controller
             'sort',
             'from',
             'to',
-            'search'
         ]))->simplePaginate(9);
 
         return view('categories.expenses.show', ['expenses' => $expenses]);
